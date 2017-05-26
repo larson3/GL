@@ -1,0 +1,49 @@
+#include <cstdlib>
+#include <iostream>
+
+using namespace std;
+
+char ** get2DArray (unsigned int rows, unsigned int columns);
+
+bool free2DArray(char **array, unsigned int rows);
+
+int main
+{
+	const int ROWS = 3;
+	const int COLUMNS = 4;
+	chrArray2=get2DArray(ROWS,COLUMNS);
+	if (free2DArray(chrArray2, ROWS)
+	{
+		cout<<"Freed";
+	}
+	return 0;
+}
+
+char ** get2DArray(unsigned int rows, unsigned int columns)
+{
+	if (rows == 0 || columns == 0 )
+	{
+		return NULL;
+	}
+	char **chrArray = new char* [rows];
+	
+	for (int row = 0; row < rows; row++)
+	{
+		chrArray[row] = new char [columns];
+	}
+	return chrArray;
+}
+
+bool free2DArray(char **array, unsigned int rows)
+{
+	if (array == NULL)
+		return false;
+	for (int row = 0; row<rows; row++)
+	{
+		delete[] chrArray[row];
+		chrArray[row]=NULL;
+	}
+	delete[] chrArray;
+	chrArray=NULL;
+	return true;
+}

@@ -1,0 +1,215 @@
+Script started on Wed 04 Nov 2015 11:14:05 AM EST
+linux2[15]% make
+gcc -g -ansi -Wall -m32 test1.c frac_heap.c -o test1.out 
+linux2[16]% ./test1.out
+called malloc(60): returned 0x8dad008
+-2/3 plus 1/4 = -5/12
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad02c
+0x8dad038
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad02c
+0x8dad038
+0x8dad020
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad038
+0x8dad020
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+**** END HEAP DUMP ****
+Free list is empty
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+0x8dad038
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+0x8dad038
+0x8dad02c
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+0x8dad038
+0x8dad02c
+0x8dad014
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad020
+0x8dad038
+0x8dad02c
+0x8dad014
+0x8dad008
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x8dad038
+0x8dad02c
+0x8dad014
+0x8dad008
+**** END HEAP DUMP ****
+linux2[17]% make
+gcc -g -ansi -Wall -m32 test2.c frac_heap.c -o test2.out 
+linux2[18]% ./test2.out
+called malloc(60): returned 0x82f9008
+
+**** BEGIN HEAP DUMP ****
+
+0x82f9038
+**** END HEAP DUMP ****
+Free list is empty
+called malloc(60): returned 0x82f9048
+
+**** BEGIN HEAP DUMP ****
+
+0x82f9054
+0x82f9060
+0x82f906c
+0x82f9078
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x82f9060
+0x82f906c
+0x82f9078
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x82f906c
+0x82f9078
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x82f9078
+**** END HEAP DUMP ****
+Free list is empty
+called malloc(60): returned 0x82f9088
+
+**** BEGIN HEAP DUMP ****
+
+0x82f9094
+0x82f90a0
+0x82f90ac
+0x82f90b8
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x82f90a0
+0x82f90ac
+0x82f90b8
+**** END HEAP DUMP ****
+
+**** BEGIN HEAP DUMP ****
+
+0x82f90ac
+0x82f90b8
+**** END HEAP DUMP ****
+-3/2
+**** BEGIN HEAP DUMP ****
+
+0x82f90ac
+0x82f90b8
+0x82f90a0
+**** END HEAP DUMP ****
+linux2[19]% make
+gcc -g -ansi -Wall -m32 test3.c frac_heap.c -o test3.out 
+linux2[20]% ./test2[K3,[K.oit[K[Kut
+Free list is empty
+called malloc(60): returned 0x8b04008
+called malloc(60): returned 0x8b04048
+called malloc(60): returned 0x8b04088
+called malloc(60): returned 0x8b040c8
+called malloc(60): returned 0x8b04108
+called malloc(60): returned 0x8b04148
+called malloc(60): returned 0x8b04188
+called malloc(60): returned 0x8b041c8
+called malloc(60): returned 0x8b04208
+called malloc(60): returned 0x8b04248
+Free list is empty
+
+**** BEGIN HEAP DUMP ****
+
+0x8b04008
+0x8b04014
+0x8b04020
+0x8b0402c
+0x8b04038
+0x8b04048
+0x8b04054
+0x8b04060
+0x8b0406c
+0x8b04078
+0x8b04088
+0x8b04094
+0x8b040a0
+0x8b040ac
+0x8b040b8
+0x8b040c8
+0x8b040d4
+0x8b040e0
+0x8b040ec
+0x8b040f8
+0x8b04108
+0x8b04114
+0x8b04120
+0x8b0412c
+0x8b04138
+0x8b04148
+0x8b04154
+0x8b04160
+0x8b0416c
+0x8b04178
+0x8b04188
+0x8b04194
+0x8b041a0
+0x8b041ac
+0x8b041b8
+0x8b041c8
+0x8b041d4
+0x8b041e0
+0x8b041ec
+0x8b041f8
+0x8b04208
+0x8b04214
+0x8b04220
+0x8b0422c
+0x8b04238
+0x8b04248
+0x8b04254
+0x8b04260
+0x8b0426c
+0x8b04278
+**** END HEAP DUMP ****
+Free list is empty
+linux2[21]% exit
+exit
+
+Script done on Wed 04 Nov 2015 11:14:41 AM EST

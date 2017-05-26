@@ -1,0 +1,7 @@
+John 70
+Joe 85
+Mary 90
+James 88
+Susan 75
+Tim 78
+Sam 82

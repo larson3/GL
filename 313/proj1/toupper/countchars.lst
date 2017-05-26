@@ -1,0 +1,247 @@
+     1                                  ;File: countchar.asm
+     2                                  ;Project: CMSC 313 Project 1, Fall 2015
+     3                                  ;Author: John Larson
+     4                                  ;Date: 9/21/2015
+     5                                  ;E-mail: larson3@umbc.edu
+     6                                  ;This file contains the entirety of the countchars.asm file which counts
+     7                                  ;the total number of letters, numbers and other characters in a user 
+     8                                  ;entered string.
+     9                                  
+    10                                  %define STDIN 0
+    11                                  %define STDOUT 1
+    12                                  %define SYSCALL_EXIT  1
+    13                                  %define SYSCALL_READ  3
+    14                                  %define SYSCALL_WRITE 4
+    15                                  %define BUFLEN 256
+    16                                  
+    17                                  
+    18                                          SECTION .data                   ; initialized data section
+    19                                  
+    20 00000000 5465787420746F2062-     msg1:   db "Text to be analyzed: "             ; user prompt
+    21 00000009 6520616E616C797A65-
+    22 00000012 643A20             
+    23                                  len1:   equ $-msg1                      ; length of first message
+    24                                  
+    25 00000015 596F7520656E746572-     msg2:   db "You entered: "                 ; original string label
+    26 0000001E 65643A20           
+    27                                  len2:   equ $-msg2                      ; length of second message
+    28                                  
+    29 00000022 546865726520776572-     msg3:   db "There were "                 ; converted string label
+    30 0000002B 6520               
+    31                                  len3:   equ $-msg3
+    32                                  
+    33 0000002D 0A5265616420657272-     msg4:   db 10, "Read error", 10         ; error message
+    34 00000036 6F720A             
+    35                                  len4:   equ $-msg4
+    36                                  
+    37 00000039 20616C706861626574-     msg5:	db " alphabetic characters.", 10 ; the next three msgs are
+    38 00000042 696320636861726163-
+    39 0000004B 746572732E0A       
+    40                                  len5: 	equ $-msg5						 ; the second part of our output
+    41                                  
+    42 00000051 206E756D6572696320-     msg6:	db " numeric characters.", 10
+    43 0000005A 636861726163746572-
+    44 00000063 732E0A             
+    45                                  len6: 	equ $-msg6
+    46                                  
+    47 00000066 206F74686572206368-     msg7:	db " other characters.", 10
+    48 0000006F 61726163746572732E-
+    49 00000078 0A                 
+    50                                  len7: 	equ $-msg7
+    51                                  
+    52                                          SECTION .bss                    ; uninitialized data section
+    53 00000000 <res 00000100>          buf:    resb BUFLEN                     ; buffer for read
+    54 00000100 <res 00000100>          newstr: resb BUFLEN                     ; converted string
+    55 00000200 <res 00000004>          rlen:   resb 4                          ; length
+    56 00000204 <res 00000100>          newLen: resb BUFLEN
+    57 00000304 <res 00000100>          alphaCount: resb BUFLEN
+    58 00000404 <res 00000100>          numCount: resb BUFLEN
+    59 00000504 <res 00000100>          otherCount: resb BUFLEN
+    60                                  
+    61                                  
+    62                                          SECTION .text                   ; Code section.
+    63                                          global  _start                  ; let loader see entry point
+    64                                  
+    65 00000000 90                      _start: nop                             ; Entry point.
+    66                                  start:                                  ; address for gdb
+    67                                  
+    68                                          ; prompt user for input
+    69                                          ;
+    70 00000001 B804000000                      mov     eax, SYSCALL_WRITE      ; write function
+    71 00000006 BB01000000                      mov     ebx, STDOUT             ; Arg1: file descriptor
+    72 0000000B B9[00000000]                    mov     ecx, msg1               ; Arg2: addr of message
+    73 00000010 BA15000000                      mov     edx, len1               ; Arg3: length of message
+    74 00000015 CD80                            int     080h                    ; ask kernel to write
+    75                                  
+    76                                          ; read user input
+    77                                          ;
+    78 00000017 B803000000                      mov     eax, SYSCALL_READ       ; read function
+    79 0000001C BB00000000                      mov     ebx, STDIN              ; Arg 1: file descriptor
+    80 00000021 B9[00000000]                    mov     ecx, buf                ; Arg 2: address of buffer
+    81 00000026 BA00010000                      mov     edx, BUFLEN             ; Arg 3: buffer length
+    82 0000002B CD80                            int     080h
+    83                                  
+    84                                          ; error check
+    85                                          ;
+    86 0000002D A3[00020000]                    mov     [rlen], eax             ; save length of string read
+    87 00000032 3D00000000                      cmp     eax, 0                  ; check if any chars read
+    88 00000037 7F1B                            jg      read_OK                 ; >0 chars read = OK
+    89 00000039 B804000000                      mov     eax, SYSCALL_WRITE      ; ow print error mesg
+    90 0000003E BB01000000                      mov     ebx, STDOUT
+    91 00000043 B9[2D000000]                    mov     ecx, msg4
+    92 00000048 BA0C000000                      mov     edx, len4
+    93 0000004D CD80                            int     080h
+    94 0000004F E981010000                      jmp     exit                    ; skip over rest
+    95                                  read_OK:
+    96                                  
+    97                                  
+    98                                          ; Loop for upper case conversion
+    99                                          ; assuming rlen > 0
+   100                                          ;
+   101                                  L1_init:
+   102 00000054 8A2D[00020000]                  mov     ch, [rlen]             ; initialize count
+   103 0000005A BE[00000000]                    mov     esi, buf                ; point to start of buffer
+   104 0000005F BF[00010000]                    mov     edi, newstr             ; point to start of new string
+   105                                  		
+   106                                  L1_temp:
+   107 00000064 B300                    		mov		bl, 0					; put 0 into bl - characters
+   108 00000066 B100                    		mov		cl, 0					; put 0 into cl - numeric
+   109 00000068 B200                    		mov		dl, 0					; put 0 into dl - other
+   110                                  L1_top:
+   111 0000006A 8A06                    		mov     al, [esi]               ; get a character
+   112 0000006C 3C0A                    		cmp		al, 10					; skip counting if newline
+   113 0000006E 7438                    		je 		L1_cont
+   114                                  		
+   115 00000070 3C30                    		cmp 	al, "0"					;if lower than 0, jump to other
+   116 00000072 722B                    		jb		L1_other
+   117                                  		
+   118 00000074 3C39                    		cmp		al, "9"					; lower than 9 AND higher than 080h
+   119 00000076 721E                    		jb		L1_num					; then must be a number
+   120                                  		
+   121 00000078 3C41                    		cmp		al, "A"					; theres some symbols between 9 and
+   122 0000007A 7223                    		jb		L1_other				; A
+   123                                  		
+   124 0000007C 3C5A                    		cmp		al, "Z"					; but it's a cap letter if it is
+   125 0000007E 720D                    		jb		L1_alpha				; higher than A but lower than Z
+   126                                  		
+   127 00000080 3C61                    		cmp		al, "a"					; see above logic
+   128 00000082 721B                    		jb		L1_other
+   129                                  		
+   130 00000084 3C7A                    		cmp		al,"z"
+   131 00000086 7205                    		jb		L1_alpha
+   132 00000088 E912000000              		jmp		L1_other				; the rest of the possibilities are others
+   133                                  		
+   134                                  
+   135                                  L1_alpha:
+   136 0000008D 80C301                  	    add     bl, 1               	;adding one for every iteration
+   137 00000090 46                              inc     esi  
+   138 00000091 E912000000              		jmp 	L1_cont
+   139                                  L1_num:
+   140 00000096 80C101                  		add     cl, 1               	;adding one for every iteration
+   141 00000099 46                              inc     esi  
+   142 0000009A E909000000              		jmp 	L1_cont
+   143                                  L1_other:
+   144 0000009F 80C201                  	    add     dl, 1               	;adding one for every iteration
+   145 000000A2 46                              inc     esi  
+   146 000000A3 E900000000              		jmp 	L1_cont
+   147                                  L1_cont:
+   148                                  
+   149 000000A8 FECD                            dec     ch                    ; update char count
+   150 000000AA 75BE                            jnz     L1_top                  ; loop to top if more chars
+   151                                  L1_end:
+   152                                  
+   153 000000AC 881D[04030000]          		mov 	[alphaCount], bl		; moving from registers to memory
+   154 000000B2 880D[04040000]          		mov		[numCount],cl			; so that we can use registers to
+   155 000000B8 8815[04050000]          		mov		[otherCount],dl			; print
+   156                                          ; print out user input for feedback
+   157                                          ;
+   158                                  
+   159 000000BE B804000000                      mov     eax, SYSCALL_WRITE      ; write message
+   160 000000C3 BB01000000                      mov     ebx, STDOUT
+   161 000000C8 B9[15000000]                    mov     ecx, msg2
+   162 000000CD BA0D000000                      mov     edx, len2
+   163 000000D2 CD80                            int     080h
+   164                                  
+   165 000000D4 B804000000                      mov     eax, SYSCALL_WRITE      ; write user input
+   166 000000D9 BB01000000                      mov     ebx, STDOUT
+   167 000000DE B9[00000000]                    mov     ecx, buf
+   168 000000E3 8B15[00020000]                  mov     edx, [rlen]
+   169 000000E9 CD80                            int     080h
+   170                                  
+   171                                          ; print out alpha count
+   172                                          ;
+   173 000000EB 8A1D[04030000]          		mov 	bl,[alphaCount]
+   174 000000F1 80C330                  		add		bl, "0"
+   175 000000F4 881F                    		mov		[edi], bl
+   176 000000F6 B804000000                      mov     eax, SYSCALL_WRITE      ; part 1 of message
+   177 000000FB BB01000000                      mov     ebx, STDOUT
+   178 00000100 B9[22000000]                    mov     ecx, msg3
+   179 00000105 BA0B000000                      mov     edx, len3
+   180 0000010A CD80                            int     080h
+   181                                  
+   182                                  		
+   183 0000010C B804000000                      mov     eax, SYSCALL_WRITE      ; write out string
+   184 00000111 BB01000000                      mov     ebx, STDOUT
+   185 00000116 B9[00010000]                    mov     ecx, newstr
+   186 0000011B 8B15[00020000]                  mov     edx, [rlen]
+   187 00000121 CD80                            int     080h
+   188                                  
+   189 00000123 B804000000              	    mov     eax, SYSCALL_WRITE      ; write second part of message
+   190 00000128 BB01000000                      mov     ebx, STDOUT
+   191 0000012D B9[39000000]                    mov     ecx, msg5
+   192 00000132 BA18000000                      mov     edx, len5
+   193 00000137 CD80                            int     080h
+   194                                  		
+   195                                  		        ; print out number count
+   196                                          ;
+   197 00000139 8A0D[04040000]          		mov 	cl,[numCount]
+   198 0000013F 80C130                  		add		cl, "0"
+   199 00000142 880F                    		mov		[edi], cl
+   200 00000144 B804000000                      mov     eax, SYSCALL_WRITE      ; part 1 of message
+   201 00000149 BB01000000                      mov     ebx, STDOUT
+   202 0000014E B9[22000000]                    mov     ecx, msg3
+   203 00000153 BA0B000000                      mov     edx, len3
+   204 00000158 CD80                            int     080h
+   205                                  
+   206                                  		
+   207 0000015A B804000000                      mov     eax, SYSCALL_WRITE      ; write out string
+   208 0000015F BB01000000                      mov     ebx, STDOUT
+   209 00000164 B9[00010000]                    mov     ecx, newstr
+   210 00000169 8B15[00020000]                  mov     edx, [rlen]
+   211 0000016F CD80                            int     080h
+   212                                  
+   213 00000171 B804000000              	    mov     eax, SYSCALL_WRITE      ; write second part of message
+   214 00000176 BB01000000                      mov     ebx, STDOUT
+   215 0000017B B9[51000000]                    mov     ecx, msg6
+   216 00000180 BA15000000                      mov     edx, len6
+   217 00000185 CD80                            int     080h
+   218                                  
+   219                                  				        ; print out other count
+   220                                          ;
+   221 00000187 8A15[04050000]          		mov 	dl,[otherCount]
+   222 0000018D 80C230                  		add		dl, "0"
+   223 00000190 8817                    		mov		[edi], dl
+   224 00000192 B804000000                      mov     eax, SYSCALL_WRITE      ; part 1 of message
+   225 00000197 BB01000000                      mov     ebx, STDOUT
+   226 0000019C B9[22000000]                    mov     ecx, msg3
+   227 000001A1 BA0B000000                      mov     edx, len3
+   228 000001A6 CD80                            int     080h
+   229                                  
+   230                                  		
+   231 000001A8 B804000000                      mov     eax, SYSCALL_WRITE      ; write out string
+   232 000001AD BB01000000                      mov     ebx, STDOUT
+   233 000001B2 B9[00010000]                    mov     ecx, newstr
+   234 000001B7 8B15[00020000]                  mov     edx, [rlen]
+   235 000001BD CD80                            int     080h
+   236                                  
+   237 000001BF B804000000              	    mov     eax, SYSCALL_WRITE      ; write second part of message
+   238 000001C4 BB01000000                      mov     ebx, STDOUT
+   239 000001C9 B9[66000000]                    mov     ecx, msg7
+   240 000001CE BA13000000                      mov     edx, len7
+   241 000001D3 CD80                            int     080h
+   242                                  		
+   243                                          ; final exit
+   244                                          ;
+   245 000001D5 B801000000              exit:   mov     eax, SYSCALL_EXIT       ; exit function
+   246 000001DA BB00000000                      mov     ebx, 0                  ; exit code, 0=normal
+   247 000001DF CD80                            int     080h                    ; ask kernel to take over

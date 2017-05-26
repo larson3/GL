@@ -1,0 +1,414 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:55:11.190Z
+latitude -> 34.0015
+longitude -> -116.835
+depth -> 20.67
+mag -> 1.28
+magType -> ml
+place -> 9km NNE of Banning, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:45:02.840Z
+latitude -> 31.5262
+longitude -> -115.665
+depth -> 1.86
+mag -> 4.89
+magType -> mb_lg
+place -> 88km ESE of Maneadero, B.C., Mexico
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:42:42.100Z
+latitude -> 37.636
+longitude -> -118.937
+depth -> 8.09
+mag -> 1.77
+magType -> md
+place -> 3km ESE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:42:22.509Z
+latitude -> 38.383
+longitude -> -119.97
+depth -> 0
+mag -> 2.93
+magType -> ml
+place -> 36km ENE of Arnold, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:30:46.300Z
+latitude -> 36.4695
+longitude -> -121.044
+depth -> 5.03
+mag -> 2.25
+magType -> md
+place -> 24km NE of Greenfield, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:07:55.000Z
+latitude -> 61.8268
+longitude -> -147.878
+depth -> 27.9
+mag -> 1.5
+magType -> ml
+place -> 51km E of Sutton-Alpine, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:03:38.000Z
+latitude -> 64.7129
+longitude -> -147.306
+depth -> 11.3
+mag -> 1.3
+magType -> ml
+place -> 4km SSE of North Pole, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:54:11.120Z
+latitude -> 41.6638
+longitude -> -109.901
+depth -> -3.03
+mag -> 3.44
+magType -> ml
+place -> 39km WNW of Green River, Wyoming
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:32:24.000Z
+latitude -> 61.2992
+longitude -> -146.902
+depth -> 11.9
+mag -> 1.9
+magType -> ml
+place -> 35km WNW of Valdez, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:18:02.650Z
+latitude -> 38.8085
+longitude -> -122.82
+depth -> 1.93
+mag -> 1.07
+magType -> md
+place -> 6km WNW of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:51:07.290Z
+latitude -> 34.1375
+longitude -> -116.84
+depth -> 9.37
+mag -> 1.91
+magType -> ml
+place -> 14km SSE of Big Bear Lake, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:42:31.740Z
+latitude -> 35.9212
+longitude -> -117.672
+depth -> 1.74
+mag -> 1
+magType -> ml
+place -> 21km E of Little Lake, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:31:29.225Z
+latitude -> 37.6286
+longitude -> -118.955
+depth -> 6.9127
+mag -> 0.75
+magType -> ml
+place -> 2km SE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:24:02.000Z
+latitude -> 57.1087
+longitude -> -156.831
+depth -> 9
+mag -> 3.1
+magType -> ml
+place -> 151km NE of Chignik Lake, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:22:07.000Z
+latitude -> 53.3688
+longitude -> -164.321
+depth -> 57.5
+mag -> 2.7
+magType -> ml
+place -> 128km SE of Akutan, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:12:19.700Z
+latitude -> 32.9748
+longitude -> -116.419
+depth -> 7.69
+mag -> 0.96
+magType -> ml
+place -> 20km NNE of Pine Valley, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:57:33.200Z
+latitude -> 19.4337
+longitude -> -155.947
+depth -> 7.9
+mag -> 2.9
+magType -> mb_lg
+place -> 7km SSW of Captain Cook, Hawaii
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:52:08.840Z
+latitude -> 37.6362
+longitude -> -118.939
+depth -> 7.97
+mag -> 2.95
+magType -> md
+place -> 2km SE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:38:10.280Z
+latitude -> 38.8218
+longitude -> -122.843
+depth -> 2.35
+mag -> 1.58
+magType -> md
+place -> 9km WNW of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T21:23:38.000Z
+latitude -> 63.0515
+longitude -> -150.825
+depth -> 92.1
+mag -> 1.8
+magType -> ml
+place -> 88km NNW of Talkeetna, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:44:21.900Z
+latitude -> 38.7453
+longitude -> -122.736
+depth -> 2.64
+mag -> 1.26
+magType -> md
+place -> 3km SSE of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:36:06.000Z
+latitude -> 62.1392
+longitude -> -148.066
+depth -> 28.3
+mag -> 1.7
+magType -> ml
+place -> 56km NE of Sutton-Alpine, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:15:02.280Z
+latitude -> 35.4227
+longitude -> -118.757
+depth -> 5.01
+mag -> 1.43
+magType -> ml
+place -> 23km NE of Lamont, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:55:11.190Z
+latitude -> 34.0015
+longitude -> -116.835
+depth -> 20.67
+mag -> 1.28
+magType -> ml
+place -> 9km NNE of Banning, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:45:02.840Z
+latitude -> 31.5262
+longitude -> -115.665
+depth -> 1.86
+mag -> 4.89
+magType -> mb_lg
+place -> 88km ESE of Maneadero, B.C., Mexico
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:42:42.100Z
+latitude -> 37.636
+longitude -> -118.937
+depth -> 8.09
+mag -> 1.77
+magType -> md
+place -> 3km ESE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:42:22.509Z
+latitude -> 38.383
+longitude -> -119.97
+depth -> 0
+mag -> 2.93
+magType -> ml
+place -> 36km ENE of Arnold, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:30:46.300Z
+latitude -> 36.4695
+longitude -> -121.044
+depth -> 5.03
+mag -> 2.25
+magType -> md
+place -> 24km NE of Greenfield, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:07:55.000Z
+latitude -> 61.8268
+longitude -> -147.878
+depth -> 27.9
+mag -> 1.5
+magType -> ml
+place -> 51km E of Sutton-Alpine, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T01:03:38.000Z
+latitude -> 64.7129
+longitude -> -147.306
+depth -> 11.3
+mag -> 1.3
+magType -> ml
+place -> 4km SSE of North Pole, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:54:11.120Z
+latitude -> 41.6638
+longitude -> -109.901
+depth -> -3.03
+mag -> 3.44
+magType -> ml
+place -> 39km WNW of Green River, Wyoming
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:32:24.000Z
+latitude -> 61.2992
+longitude -> -146.902
+depth -> 11.9
+mag -> 1.9
+magType -> ml
+place -> 35km WNW of Valdez, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-09T00:18:02.650Z
+latitude -> 38.8085
+longitude -> -122.82
+depth -> 1.93
+mag -> 1.07
+magType -> md
+place -> 6km WNW of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:51:07.290Z
+latitude -> 34.1375
+longitude -> -116.84
+depth -> 9.37
+mag -> 1.91
+magType -> ml
+place -> 14km SSE of Big Bear Lake, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:42:31.740Z
+latitude -> 35.9212
+longitude -> -117.672
+depth -> 1.74
+mag -> 1
+magType -> ml
+place -> 21km E of Little Lake, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:31:29.225Z
+latitude -> 37.6286
+longitude -> -118.955
+depth -> 6.9127
+mag -> 0.75
+magType -> ml
+place -> 2km SE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:24:02.000Z
+latitude -> 57.1087
+longitude -> -156.831
+depth -> 9
+mag -> 3.1
+magType -> ml
+place -> 151km NE of Chignik Lake, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:22:07.000Z
+latitude -> 53.3688
+longitude -> -164.321
+depth -> 57.5
+mag -> 2.7
+magType -> ml
+place -> 128km SE of Akutan, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T23:12:19.700Z
+latitude -> 32.9748
+longitude -> -116.419
+depth -> 7.69
+mag -> 0.96
+magType -> ml
+place -> 20km NNE of Pine Valley, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:57:33.200Z
+latitude -> 19.4337
+longitude -> -155.947
+depth -> 7.9
+mag -> 2.9
+magType -> mb_lg
+place -> 7km SSW of Captain Cook, Hawaii
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:52:08.840Z
+latitude -> 37.6362
+longitude -> -118.939
+depth -> 7.97
+mag -> 2.95
+magType -> md
+place -> 2km SE of Mammoth Lakes, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T22:38:10.280Z
+latitude -> 38.8218
+longitude -> -122.843
+depth -> 2.35
+mag -> 1.58
+magType -> md
+place -> 9km WNW of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T21:23:38.000Z
+latitude -> 63.0515
+longitude -> -150.825
+depth -> 92.1
+mag -> 1.8
+magType -> ml
+place -> 88km NNW of Talkeetna, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:44:21.900Z
+latitude -> 38.7453
+longitude -> -122.736
+depth -> 2.64
+mag -> 1.26
+magType -> md
+place -> 3km SSE of The Geysers, California
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:36:06.000Z
+latitude -> 62.1392
+longitude -> -148.066
+depth -> 28.3
+mag -> 1.7
+magType -> ml
+place -> 56km NE of Sutton-Alpine, Alaska
+type -> earthquake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+time -> 2015-02-08T20:15:02.280Z
+latitude -> 35.4227
+longitude -> -118.757
+depth -> 5.01
+mag -> 1.43
+magType -> ml
+place -> 23km NE of Lamont, California
+type -> earthquake

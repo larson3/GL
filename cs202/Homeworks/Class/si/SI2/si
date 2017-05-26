@@ -1,0 +1,16 @@
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+class InvalidArgumentException
+{
+	public:
+		
+	private:
+		string m_userString;
+};
+
+double InvalidArgumentException::GetAverage(double *testScores,unsigned int numberOfDoubles)
+{
+	

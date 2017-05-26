@@ -1,0 +1,13 @@
+def letterCount(letter,myString):
+     for currentLetter in myString:
+        print (currentLetter)
+        if currentLetter == Letter:
+            print ("Found one")
+
+
+def main():
+    letterCount("l","Hello")
+        
+
+main()
+

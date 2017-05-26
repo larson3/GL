@@ -1,0 +1,21 @@
+     1                                  ;
+     2                                  ; Linux style "fast call". Assemble using NASM
+     3                                  ;
+     4                                          SECTION .data                   ; Data section
+     5                                  
+     6 00000000 320A                    msg:    db "2", 10           ; The string to print.
+     7                                  len:    equ $-msg
+     8                                  
+     9                                          SECTION .text                   ; Code section.
+    10                                          global _start
+    11 00000000 90                      _start: nop                             ; Entry point.
+    12 00000001 BA02000000                      mov     edx, len                ; Arg 3: length of string.
+    13 00000006 B9[00000000]                    mov     ecx, msg                ; Arg 2: pointer to string.
+    14 0000000B 42                      		inc 	edx
+    15 0000000C BB01000000                      mov     ebx, 1                  ; Arg 1: file descriptor.
+    16 00000011 B804000000                      mov     eax, 4                  ; Write.
+    17 00000016 CD80                            int     080H
+    18                                  
+    19 00000018 BB00000000                      mov     ebx, 0                  ; exit code, 0=normal
+    20 0000001D B801000000                      mov     eax, 1                  ; Exit.
+    21 00000022 CD80                            int     080H                    ; Call kernel.

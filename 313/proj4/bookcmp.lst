@@ -1,0 +1,23 @@
+     1                                  ;assembly file
+     2                                  ; Offsets for fields in struct book.
+     3                                  ;
+     4                                  %define TITLE_OFFSET 0
+     5                                  %define AUTHOR_OFFSET 33
+     6                                  %define SUBJECT_OFFSET 21
+     7                                  %define YEAR_OFFSET 14
+     8                                  extern book1, book2
+     9                                  
+    10                                  
+    11                                          SECTION .data                   ; initialized data section
+    12                                  		
+    13                                  		
+    14                                  		SECTION .bss                    ; uninitialized data section
+    15                                  		
+    16                                  		SECTION .text                   ; Code section.
+    17                                  		global bookcmp
+    18                                  		
+    19                                  
+    20                                  bookcmp:
+    21 00000000 55                      	    push    ebp
+    22 00000001 89E5                            mov     ebp, esp
+    23 00000003 C3                      		ret

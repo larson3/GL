@@ -1,0 +1,9 @@
+Script started on Thu 10 Sep 2015 11:26:48 AM EDT
+linux2[15]% scl enable python33 bash[13Gcd 201/Projects/proj2[K[15G[K Projects/proj1[16Gp[30G[16GP[30G[15G[K 201/Projects/proj2[13Gscl enable python33 bash[13G[Kscl enable python33 bash[13Gcd 201/Projects/proj2[K[15G[K Projects/proj1[16Gp[30G[16G201[K[13Gssh gl.umbc.edu[13Goitcleaner[K[13Gls[Kcd 201/Projects[13Gls[Koitcleaner[13Gssh gl.umbc.edu[13Gcd 201[Kprojects/proj1[16GP[30G[15G[K 201/Projects/proj2[13Gscl enable python33 bash[13G[Knasm -f elf -l hello.lst hello.asm
+linux2[16]% ld -o hello.out hello.o -melf_i386
+linux2[17]% ./hello.out
+These pretzels are making me thirsty!
+linux2[18]% exit
+exit
+
+Script done on Thu 10 Sep 2015 11:27:22 AM EDT

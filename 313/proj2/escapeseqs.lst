@@ -1,0 +1,313 @@
+     1                                  ;File: escapeseqs.asm
+     2                                  ;Project: CMSC 313 Project 2, Fall 2015
+     3                                  ;Author: John Larson
+     4                                  ;Date: 9/28/2015
+     5                                  ;E-mail: larson3@umbc.edu
+     6                                  ;This file contains the entirety of the escapeseqs.asm which will take
+     7                                  ;in a user defined string and parse it for escape sequences.  Upon finding
+     8                                  ;a \ it will check for a valid escape sequence or ASCII code and print
+     9                                  ;the result, otherwise it will give an error message
+    10                                  
+    11                                  %define STDIN 0
+    12                                  %define STDOUT 1
+    13                                  %define SYSCALL_EXIT  1
+    14                                  %define SYSCALL_READ  3
+    15                                  %define SYSCALL_WRITE 4
+    16                                  %define BUFLEN 256
+    17                                  %define STRLEN 32
+    18                                  
+    19                                  
+    20                                          SECTION .data                   ; initialized data section
+    21                                  
+    22 00000000 456E74657220737472-     msg1:   db "Enter string: "             ; user prompt
+    23 00000009 696E673A20         
+    24                                  len1:   equ $-msg1                      ; length of first message
+    25                                  
+    26 0000000E 4F726967696E616C3A-     msg2:   db "Original: "                 ; original string label
+    27 00000017 20                 
+    28                                  len2:   equ $-msg2                      ; length of second message
+    29                                  
+    30 00000018 436F6E766572743A20-     msg3:   db "Convert:  "                 ; converted string label
+    31 00000021 20                 
+    32                                  len3:   equ $-msg3
+    33                                  
+    34 00000022 4572726F723A20756E-     msg4:   db "Error: unknown escape sequence \"       ; error message
+    35 0000002B 6B6E6F776E20657363-
+    36 00000034 617065207365717565-
+    37 0000003D 6E6365205C         
+    38                                  len4:   equ $-msg4
+    39                                  
+    40 00000042 4572726F723A206F63-     msg5:	db "Error: octal value overflow in \"
+    41 0000004B 74616C2076616C7565-
+    42 00000054 206F766572666C6F77-
+    43 0000005D 20696E205C         
+    44                                  len5:	equ $-msg5
+    45                                  
+    46 00000062 0A                      msg6:	db 10
+    47                                  len6:	equ $-msg6
+    48                                  
+    49 00000063 5CFFFFFFFF0708FFFF-     table:	db 92,-1,-1,-1,-1,7,8,-1,-1,-1,12,-1,-1,-1,-1,-1,-1,-1,10,-1,-1,-1,13,-1,9,-1,11,-1,-1,-1
+    50 0000006C FF0CFFFFFFFFFFFFFF-
+    51 00000075 0AFFFFFF0DFF09FF0B-
+    52 0000007E FFFFFF             
+    53                                  
+    54                                  
+    55                                  
+    56                                          SECTION .bss                    ; uninitialized data section
+    57 00000000 <res 00000100>          buf:    resb BUFLEN                     ; buffer for read
+    58 00000100 <res 00000100>          newstr: resb BUFLEN                     ; converted string
+    59 00000200 <res 00000004>          rlen:   resb 4                          ; length
+    60 00000204 <res 00000020>          tempVal: resb 32					; value of char
+    61 00000224 <res 00000004>          octDigit: resb 4					; needed for octal analysis
+    62 00000228 <res 00000020>          oldString: resb 32
+    63                                  
+    64                                  
+    65                                          SECTION .text                   ; Code section.
+    66                                          global  _start                  ; let loader see entry point
+    67                                  
+    68 00000000 90                      _start: nop                             ; Entry point.
+    69                                  start:                                  ; address for gdb
+    70                                  
+    71                                          ; prompt user for input
+    72                                          ;
+    73 00000001 B804000000                      mov     eax, SYSCALL_WRITE      ; write function
+    74 00000006 BB01000000                      mov     ebx, STDOUT             ; Arg1: file descriptor
+    75 0000000B B9[00000000]                    mov     ecx, msg1               ; Arg2: addr of message
+    76 00000010 BA0E000000                      mov     edx, len1               ; Arg3: length of message
+    77 00000015 CD80                            int     080h                    ; ask kernel to write
+    78                                  
+    79                                          ; read user input
+    80                                          ;
+    81 00000017 B803000000                      mov     eax, SYSCALL_READ       ; read function
+    82 0000001C BB00000000                      mov     ebx, STDIN              ; Arg 1: file descriptor
+    83 00000021 B9[00000000]                    mov     ecx, buf                ; Arg 2: address of buffer
+    84 00000026 BAFF000000                      mov     edx, BUFLEN-1             ; Arg 3: buffer length
+    85 0000002B CD80                            int     080h
+    86                                          ; error check
+    87                                          ;
+    88 0000002D A3[00020000]                    mov     [rlen], eax             ; save length of string read
+    89 00000032 3D00000000                      cmp     eax, 0                  ; check if any chars read
+    90 00000037 7F1B                            jg      read_OK                 ; >0 chars read = OK
+    91 00000039 B804000000                      mov     eax, SYSCALL_WRITE      ; ow print error mesg
+    92 0000003E BB01000000                      mov     ebx, STDOUT
+    93 00000043 B9[22000000]                    mov     ecx, msg4
+    94 00000048 BA20000000                      mov     edx, len4
+    95 0000004D CD80                            int     080h
+    96 0000004F E9E7010000                      jmp     exit                    ; skip over rest
+    97                                  read_OK:
+    98                                  
+    99                                  
+   100                                          ; Loop for upper case conversion
+   101                                          ; assuming rlen > 0
+   102                                          ;
+   103                                  L1_init:
+   104 00000054 C680[00000000]00        		mov 	byte[buf+eax],0			; adding a nul char to end of str
+   105 0000005B 8B0D[00020000]                  mov     ecx, [rlen]             ; initialize count
+   106 00000061 BE[00000000]                    mov     esi, buf                ; point to start of buffer
+   107 00000066 BF[00010000]                    mov     edi, newstr             ; point to start of new string
+   108                                  
+   109                                  L1_top:
+   110 0000006B 8A06                            mov     al, [esi]               ; get a character
+   111 0000006D 3C00                    		cmp		al,0					;if null, terminate
+   112 0000006F 7417                    		je		L1_end
+   113                                  		
+   114                                  		
+   115                                  		
+   116 00000071 46                              inc     esi           			; update source pointer
+   117 00000072 3C5C                    		cmp		al,"\"
+   118 00000074 750A                    		jne		L1_cont
+   119 00000076 E86C000000              		call	handle_ESC
+   120 0000007B A0[04020000]            		mov		al,[tempVal]
+   121                                  L1_cont:
+   122 00000080 8807                            mov     [edi], al               ; store char in new string
+   123                                  		
+   124 00000082 47                              inc     edi                     ; update dest pointer
+   125                                  		
+   126 00000083 E9E3FFFFFF                      jmp     L1_top                  ; loop to top if more chars
+   127                                  		
+   128                                  
+   129                                  
+   130                                  L1_end:
+   131                                  
+   132                                  
+   133                                          ; print out user input for feedback
+   134                                          ;
+   135 00000088 B804000000                      mov     eax, SYSCALL_WRITE      ; write message
+   136 0000008D BB01000000                      mov     ebx, STDOUT
+   137 00000092 B9[0E000000]                    mov     ecx, msg2
+   138 00000097 BA0A000000                      mov     edx, len2
+   139 0000009C CD80                            int     080h
+   140                                  
+   141 0000009E B804000000                      mov     eax, SYSCALL_WRITE      ; write user input
+   142 000000A3 BB01000000                      mov     ebx, STDOUT
+   143 000000A8 B9[00000000]                    mov     ecx, buf
+   144 000000AD 8B15[00020000]                  mov     edx, [rlen]
+   145 000000B3 CD80                            int     080h
+   146                                  
+   147                                          ; print out converted string
+   148                                          ;
+   149 000000B5 B804000000                      mov     eax, SYSCALL_WRITE      ; write message
+   150 000000BA BB01000000                      mov     ebx, STDOUT
+   151 000000BF B9[18000000]                    mov     ecx, msg3
+   152 000000C4 BA0A000000                      mov     edx, len3
+   153 000000C9 CD80                            int     080h
+   154                                  
+   155 000000CB B804000000                      mov     eax, SYSCALL_WRITE      ; write out string
+   156 000000D0 BB01000000                      mov     ebx, STDOUT
+   157 000000D5 B9[00010000]                    mov     ecx, newstr
+   158 000000DA 8B15[00020000]                  mov     edx, [rlen]
+   159 000000E0 CD80                            int     080h
+   160 000000E2 E954010000              		jmp 	exit
+   161                                  		
+   162                                  handle_ESC:
+   163                                  
+   164 000000E7 8A06                    		mov 	al, [esi]
+   165 000000E9 A2[28020000]            		mov		[oldString],al
+   166 000000EE 46                      	    inc     esi           			; update source pointer
+   167                                  
+   168 000000EF 3C30                    		cmp 	al, "0"					;if lower than 0, jump to other
+   169 000000F1 720A                    		jb		L1_notNum
+   170                                  		
+   171 000000F3 3C38                    		cmp		al, "8"					; lower than 8
+   172 000000F5 723D                    		jb		L1_num					; then must be an octal number
+   173                                  
+   174 000000F7 E901000000              		jmp		L1_notNum
+   175 000000FC C3                      		ret
+   176                                  		
+   177                                  L1_notNum:
+   178                                  		;check if in table
+   179                                  
+   180 000000FD 3C5C                    		cmp		al,"\"
+   181 000000FF 7412                    		je		L1_table
+   182                                  		
+   183 00000101 3C61                    		cmp		al, "a"					
+   184 00000103 0F8298000000            		jb		L1_error
+   185                                  		
+   186 00000109 3C7A                    		cmp		al,"z"
+   187 0000010B 7206                    		jb		L1_table
+   188 0000010D E98F000000              		jmp		L1_error			;if not in table, we give an error
+   189                                  		
+   190 00000112 C3                      		ret
+   191                                  		
+   192                                  L1_table:
+   193                                  	
+   194                                  				;getting the table value of the char
+   195                                  		
+   196 00000113 A2[04020000]            		mov		[tempVal],al
+   197                                  
+   198 00000118 A1[04020000]            		mov		eax,[tempVal]		;we need this in eax, not al
+   199 0000011D 2D5C000000              		sub		eax,92				;getting the table value of the char
+   200 00000122 8A98[63000000]          		mov 	bl,[table+ eax]	;finding the char on the table
+   201                                  
+   202 00000128 80FBFF                  		cmp		bl,-1
+   203 0000012B 7474                    		je		L1_error
+   204 0000012D 881D[04020000]          		mov		[tempVal],bl
+   205 00000133 C3                      		ret
+   206                                  L1_num:
+   207                                  		;loop three times, check if 8 and then check if whole number is
+   208                                  		;less than 255 dec.
+   209 00000134 BA00000000              		mov 	edx,0
+   210 00000139 BB00000000              		mov		ebx,0
+   211 0000013E B900000000              		mov		ecx,0
+   212 00000143 891D[04020000]          		mov		[tempVal],ebx
+   213 00000149 E901000000              		jmp		L1_octLoop
+   214                                  		
+   215 0000014E C3                      		ret
+   216                                  		
+   217                                  
+   218                                  L1_octLoop:
+   219                                  		
+   220                                  		
+   221 0000014F 2C30                    		sub 	al,48					;first we get the real int value
+   222 00000151 A2[24020000]            		mov		[octDigit],al			;then move it into memory
+   223 00000156 A1[04020000]            		mov		eax, [tempVal]			;store the val in al
+   224 0000015B BB08000000              		mov 	ebx,8					;so we can do multiplication
+   225 00000160 F7EB                    		imul	ebx						;mult the val by 8
+   226 00000162 8B1D[24020000]          		mov		ebx,[octDigit]			;digit back to register
+   227 00000168 01D8                    		add     eax,ebx					;add together
+   228 0000016A A3[04020000]            		mov		[tempVal],eax			;back to memory
+   229                                  		
+   230 0000016F 8A06                    		mov 	al, [esi]
+   231 00000171 2C30                    		sub 	al,48	
+   232                                  
+   233 00000173 41                      		inc     ecx 						;counting iterations
+   234 00000174 81F903000000            		cmp 	ecx,3				;leaving the loop after 3 iterations
+   235 0000017A 7418                    		je		L1_testSize
+   236                                  		
+   237 0000017C 3C07                    		cmp		al,7
+   238 0000017E 7606                    		jbe		L1_preLoop
+   239                                  
+   240 00000180 E90F000000              		jmp		L1_testSize
+   241 00000185 C3                      		ret
+   242                                  
+   243                                  		
+   244                                  L1_preLoop:
+   245 00000186 46                      		inc 	esi
+   246                                  		
+   247 00000187 0430                    		add		al,48
+   248                                  		
+   249 00000189 8881[28020000]          		mov		[oldString+ecx],al
+   250 0000018F E9BBFFFFFF              		jmp		L1_octLoop
+   251                                  		
+   252                                  L1_testSize:
+   253                                  		
+   254 00000194 A1[04020000]            		mov		eax,[tempVal]
+   255 00000199 3DFF000000              		cmp		eax,255
+   256 0000019E 7F4E                    		jg		L1_sizeError
+   257                                  
+   258 000001A0 C3                      		ret
+   259                                  		
+   260                                  
+   261                                  L1_error:
+   262                                  
+   263 000001A1 B85C000000              		mov		eax,92
+   264 000001A6 A3[04020000]            		mov		[tempVal],eax
+   265                                  
+   266                                  
+   267 000001AB B804000000              	    mov     eax, SYSCALL_WRITE      ; write message
+   268 000001B0 BB01000000                      mov     ebx, STDOUT
+   269 000001B5 B9[22000000]                    mov     ecx, msg4
+   270 000001BA BA20000000                      mov     edx, len4
+   271 000001BF CD80                            int     080h
+   272                                  		
+   273 000001C1 B804000000              		mov     eax, SYSCALL_WRITE      ; write out string
+   274 000001C6 BB01000000                      mov     ebx, STDOUT
+   275 000001CB B9[28020000]                    mov     ecx, oldString
+   276 000001D0 BA20000000                      mov     edx, STRLEN
+   277 000001D5 CD80                            int     080h
+   278                                  		
+   279 000001D7 B804000000              		mov     eax, SYSCALL_WRITE      ; write out string
+   280 000001DC BB01000000                      mov     ebx, STDOUT
+   281 000001E1 B9[62000000]                    mov     ecx, msg6
+   282 000001E6 BA01000000                      mov     edx, len6
+   283 000001EB CD80                            int     080h
+   284                                  		
+   285 000001ED C3                      		ret
+   286                                  		
+   287                                  L1_sizeError:
+   288                                  		
+   289 000001EE B85C000000              		mov		eax,"\"
+   290 000001F3 A2[04020000]            		mov		[tempVal],al
+   291 000001F8 B804000000              	    mov     eax, SYSCALL_WRITE      ; write message
+   292 000001FD BB01000000                      mov     ebx, STDOUT
+   293 00000202 B9[42000000]                    mov     ecx, msg5
+   294 00000207 BA20000000                      mov     edx, len5
+   295 0000020C CD80                            int     080h
+   296                                  		
+   297 0000020E B804000000              		mov     eax, SYSCALL_WRITE      ; write out string
+   298 00000213 BB01000000                      mov     ebx, STDOUT
+   299 00000218 B9[28020000]                    mov     ecx, oldString
+   300 0000021D BA20000000                      mov     edx, STRLEN
+   301 00000222 CD80                            int     080h
+   302                                  		
+   303 00000224 B804000000              		mov     eax, SYSCALL_WRITE      ; write out string
+   304 00000229 BB01000000                      mov     ebx, STDOUT
+   305 0000022E B9[62000000]                    mov     ecx, msg6
+   306 00000233 BA01000000                      mov     edx, len6
+   307 00000238 CD80                            int     080h
+   308                                  
+   309 0000023A C3                      		ret
+   310                                  		
+   311 0000023B B801000000              exit:   mov     eax, SYSCALL_EXIT       ; exit function
+   312 00000240 BB00000000                      mov     ebx, 0                  ; exit code, 0=normal
+   313 00000245 CD80                            int     080h                    ; ask kernel to take over
