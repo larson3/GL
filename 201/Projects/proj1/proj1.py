@@ -25,6 +25,7 @@ def validFile():
 #Input: file name, empty list
 #Output: 2D List
 def switchToList(fileName,fileList2D):
+    uselessVar = "I don't do anything lol"
     userFile = open(fileName, "r")
     #making a for loop to go through the file
     for currentLine in userFile:
