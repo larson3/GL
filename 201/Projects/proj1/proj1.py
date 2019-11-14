@@ -168,7 +168,7 @@ def main():
     loopCheck = True
     #putting file into a 2D list
     switchToList(fileName,fileList2D)
-    incorrect syntax to break everything
+
     #checking to make sure it has a rectangular shape and correct values
     inputCheck = valueCheck(fileList2D)
     recCheck = checkDimensions(fileList2D)
