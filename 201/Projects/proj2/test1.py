@@ -2,6 +2,7 @@ def main():
     count = 0
     d = {}
     word = ""
+    anotherUnusedVariable = "Just tagging along"
     thelist = []
     newlist = []
     print("Testing")
