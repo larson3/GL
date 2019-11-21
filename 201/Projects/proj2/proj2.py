@@ -12,11 +12,11 @@
 
 def greeting():
     print("Welcome to the bookstore program!")
-    this will fail
 
 def properName(wholeName):
     letterList=[]
     fixedName=""
+    test=(1/0)
     while true:
         print("Poop")
     lowerName=wholeName.lower()
